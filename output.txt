@@ -1,0 +1,13 @@
+           name            |      mother       |   father   
+---------------------------+-------------------+------------
+ Albert Victor             | Alexandra (Queen) | Edward VII
+ Charles                   | Elizabeth II      | Philip
+ Charles II                | Henrietta Maria   | Charles I
+ Edward VIII               | Mary of Teck      | George V
+ Elizabeth II              | Elizabeth         | George VI
+ Frederick (Prince)        | Charlotte         | George III
+ Mary II                   | Anne Hyde         | James II
+ Victoria (Princess Royal) | Victoria          | Albert
+ William                   | Diana             | Charles
+(9 rows)
+
