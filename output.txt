@@ -1,13 +1,17 @@
-           name            |      mother       |   father   
----------------------------+-------------------+------------
- Albert Victor             | Alexandra (Queen) | Edward VII
- Charles                   | Elizabeth II      | Philip
- Charles II                | Henrietta Maria   | Charles I
- Edward VIII               | Mary of Teck      | George V
- Elizabeth II              | Elizabeth         | George VI
- Frederick (Prince)        | Charlotte         | George III
- Mary II                   | Anne Hyde         | James II
- Victoria (Princess Royal) | Victoria          | Albert
- William                   | Diana             | Charles
-(9 rows)
+        father        |        mother         | male 
+----------------------+-----------------------+------
+ Albert               | Victoria              |   50
+ Andrew of Greece     | Alice                 |  100
+ Charles              | Diana                 |  100
+ Charles I            | Henrietta Maria       |   66
+ Edward VII           | Alexandra (Queen)     |   66
+ Ernest Augustus      | Palatine Sophia       |  100
+ Frederick            | Augusta of Saxe-Gotha |  100
+ George III           | Charlotte             |  100
+ George V             | Mary of Teck          |  100
+ George VI            | Elizabeth             |    0
+ James II             | Anne Hyde             |    0
+ Philip               | Elizabeth II          |   75
+ William II of Orange | Mary (Princess Royal) |  100
+(13 rows)
 

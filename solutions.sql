@@ -15,14 +15,14 @@ WHERE persona.gender = 'M'
 EXCEPT
 SELECT persona.name
 FROM person AS persona CROSS JOIN person AS personb
-WHERE personsa.gender = 'M'
-EXCEPT
-SELECT persona.name
 WHERE persona.name=personb.father
+ORDER BY name
+
+
 ;
 
 -- Q3 returns (name)
-SELECT DISTINCT name
+SELECT DISTINCT persona.name
 FROM person AS persona
 WHERE NOT EXISTS (
         SELECT gender
@@ -30,9 +30,9 @@ WHERE NOT EXISTS (
         EXCEPT
         SELECT gender
         FROM person
-        WHERE person.name = persona.mother
+        WHERE persona.name = person.mother
       )
-
+ORDER BY persona.name
 
 
 ;
@@ -86,27 +86,47 @@ FROM ( SELECT SUBSTRING(name FROM '[a-zA-Z]+') AS firstname
       FROM person ) AS firstnametable
 GROUP BY firstname
 HAVING COUNT(firstname)>1
-ORDER BY popularity DESC
+ORDER BY popularity DESC, firstname
 ;
 
 -- Q6 returns (name,forties,fifties,sixties)
 SELECT parent.name AS PARENTNAME,
     COUNT(person.name) AS numberofchildren,
-    COUNT(CASE WHEN person.dob <='1950-01-01' AND person.dob >='1939-12-31' THEN person.dob ELSE NULL END) AS forties,
-    COUNT(CASE WHEN person.dob <='1960-01-01' AND person.dob >='1949-12-31' THEN person.dob ELSE NULL END) AS fifties,
-    COUNT(CASE WHEN person.dob <='1970-01-01' AND person.dob >='1959-12-31' THEN person.dob ELSE NULL END) AS sixties
+    COUNT(CASE WHEN (person.dob <='1950-01-01' AND person.dob >='1939-12-31') OR (person.dob  <='1850-01-01' AND person.dob >='1839-12-31' )OR (person.dob  <='1750-01-01' AND person.dob >='1739-12-31' )OR (person.dob  <='1650-01-01' AND person.dob >='1639-12-31' )THEN person.dob ELSE NULL END) AS forties,
+    COUNT(CASE WHEN (person.dob <='1960-01-01' AND person.dob >='1949-12-31') OR (person.dob  <='1860-01-01' AND person.dob >='1849-12-31' )OR (person.dob  <='1760-01-01' AND person.dob >='1749-12-31' )OR (person.dob  <='1660-01-01' AND person.dob >='1649-12-31' )THEN person.dob ELSE NULL END) AS fifties,
+    COUNT(CASE WHEN (person.dob <='1970-01-01' AND person.dob >='1959-12-31') OR (person.dob  <='1870-01-01' AND person.dob >='1859-12-31' )OR (person.dob  <='1770-01-01' AND person.dob >='1759-12-31' )OR (person.dob  <='1670-01-01' AND person.dob >='1659-12-31' )THEN person.dob ELSE NULL END) AS sixties
 FROM person AS parent CROSS JOIN person
 WHERE parent.name=person.mother
 OR parent.name=person.father
 GROUP BY parent.name
 HAVING COUNT(person.name) >= 2
+ORDER BY parent.name
 ;
 
 
 -- Q7 returns (father,mother,child,born)
-
+SELECT     persona.father AS father,
+    persona.mother AS mother,
+    persona.name AS child,
+    RANK() OVER (PARTITION BY persona.father ORDER by persona.dob) AS born
+FROM     person inner JOIN person AS persona
+ON     persona.father = person.name
+OR     persona.mother = person.name
+GROUP BY persona.father, persona.mother, persona.name, persona.dob
+ORDER BY persona.father, persona.mother, born
 ;
 
 -- Q8 returns (father,mother,male)
+SELECT DISTINCT person.father, person.mother,
+ROUND (
+  ( (COUNT (CASE WHEN person.gender = 'M' THEN person.name END) * 100 )  /
+  COUNT(person.name)
+) ) AS male
 
+FROM person
+WHERE (person.mother IS NOT NULL
+AND person.father IS NOT NULL)
+
+GROUP BY person.father, person.mother
+ORDER BY person.father, person.mother
 ;
