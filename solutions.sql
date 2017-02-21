@@ -112,7 +112,7 @@ SELECT persona.father AS father,
        persona.mother AS mother,
        persona.name AS child,
        RANK() OVER (PARTITION BY persona.father ORDER by persona.dob) AS born
-FROM   person inner JOIN person AS persona
+FROM   person INNER JOIN person AS persona
 ON     persona.father = person.name
 OR     persona.mother = person.name
 
